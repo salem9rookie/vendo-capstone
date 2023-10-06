@@ -1,6 +1,7 @@
 package com.techelevator;
 
 import com.techelevator.view.Menu;
+//import com.techelevator.PurchaseMenu; -->Salem
 
 public class VendingMachineCLI {
 
@@ -10,6 +11,7 @@ public class VendingMachineCLI {
 	private static final String[] MAIN_MENU_OPTIONS = { MAIN_MENU_OPTION_DISPLAY_ITEMS, MAIN_MENU_OPTION_PURCHASE, MAIN_MENU_OPTION_EXIT };
 
 	private Menu menu;
+	//private PurchaseMenu purchaseMenu; --> Salem
 
 	public VendingMachineCLI(Menu menu) {
 		this.menu = menu;
@@ -23,7 +25,7 @@ public class VendingMachineCLI {
 				// display vending machine items
 			} else if (choice.equals(MAIN_MENU_OPTION_PURCHASE)) {
 				// do purchase
-			}else if (choice.equals(MAIN_MENU_OPTION_EXIT)){
+			}else if (choice.equals(MAIN_MENU_OPTION_EXIT)){ //how to actually close the file?? --> Salem
 				//exit program
 			}
 		}
