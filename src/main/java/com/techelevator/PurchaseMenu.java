@@ -28,7 +28,7 @@ public class PurchaseMenu {
     public PurchaseMenu(InputStream input, OutputStream output){
         this.out = new PrintWriter(output);
         this.in = new Scanner(input);
-        this.userMoneyFed = 0.0;
+        this.userMoneyFed = 0.00;
     }
 
     public Object getChoiceFromOptions(Object[] options){
@@ -94,7 +94,7 @@ public class PurchaseMenu {
         if (userMoneyFed > MAX_AMOUNT_USER_CAN_FEED_MACHINE) {
             out.println("You have reached the maximum allowed amount of $100.");
             out.println("No more money can be added.");
-            userMoneyFed = MAX_AMOUNT_USER_CAN_FEED_MACHINE;
+            userMoneyFed = MAX_AMOUNT_USER_CAN_FEED_MACHINE; //resets back to the upper limit of 100.00
         }
     }
 
@@ -103,13 +103,20 @@ public class PurchaseMenu {
         while(true) {
             String choice = (String) this.getChoiceFromOptions(PURCHASE_MENU_OPTIONS); // Use 'this' to call the method
 
-            if (choice.equals(FEED_MONEY_OPTION)) {
-                feedMoney();
+            switch (choice) {
+                case FEED_MONEY_OPTION:
+                    feedMoney();
 
-            } else if (choice.equals(SELECT_PRODUCT_OPTION)) {
+                    break;
+                case SELECT_PRODUCT_OPTION:
+                    //
 
-            } else if (choice.equals(FINISH_TRANSACTION_OPTION)) {
-                // Finish transaction, refund money
+
+                    break;
+                case FINISH_TRANSACTION_OPTION:
+                    // print returned change
+                    // close transaction
+                    break;
             }
         }
     }
@@ -118,7 +125,7 @@ public class PurchaseMenu {
     public static void main(String[] args) {
         // Example usage
         PurchaseMenu purchaseMenu = new PurchaseMenu(System.in, System.out);
-
         purchaseMenu.displayPurchaseMenuOptions(PURCHASE_MENU_OPTIONS);
+        purchaseMenu.run();
     }
 }
