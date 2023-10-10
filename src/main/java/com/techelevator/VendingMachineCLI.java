@@ -122,7 +122,7 @@ public class VendingMachineCLI {
 		}
 
 	}
-// ------ this is new stuff just in case the group can't get together to work on things. -----
+	
 	private void loadProducts (String filename){
 		try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
 			String line;
