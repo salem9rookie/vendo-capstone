@@ -2,6 +2,12 @@ package com.techelevator;
 
 import com.techelevator.view.Menu;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class VendingMachineCLI {
 
@@ -23,6 +29,7 @@ public class VendingMachineCLI {
 
 	private Menu menu;
 	private double balance = 0.0;
+	private Map<String, Product> products = new HashMap<>();
 
 
 	public VendingMachineCLI(Menu menu) {
@@ -32,6 +39,7 @@ public class VendingMachineCLI {
 	public static void main(String[] args) {
 		Menu menu = new Menu(System.in, System.out);
 		VendingMachineCLI cli = new VendingMachineCLI(menu);
+
 		cli.run();
 	}
 
@@ -74,6 +82,8 @@ public class VendingMachineCLI {
 		}
 	}
 	private void displayItems(){
+		loadProducts("vendingmachine.csv"); //added by Salem, not pushed
+		displayProducts(); //added by Salem, not pushed
 		System.out.println("displaying new items"); //replace with call to Jennifer's methods
 	}
 
@@ -111,6 +121,34 @@ public class VendingMachineCLI {
 
 		}
 
+	}
+// ------ this is new stuff just in case the group can't get together to work on things. -----
+	private void loadProducts (String filename){
+		try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+			String line;
+			while ((line = reader.readLine()) != null) {
+				String[] parts = line.split("\\|");
+				if (parts.length == 4) {
+					String slot = parts[0];
+					String name = parts[1];
+					double price = Double.parseDouble(parts[2]);
+					String type = parts[3];
+					Product product = new Product(name, price, type);
+					products.put(slot, product);
+				}
+			}
+		}catch(IOException e){
+			e.printStackTrace();
+
+			}
+	}
+	public void displayProducts() {
+		System.out.println("Vending Machine Items:");
+		for (Map.Entry<String, Product> entry : products.entrySet()) {
+			String slot = entry.getKey();
+			Product product = entry.getValue();
+			System.out.printf("%s - %s ($%.2f) - %s\n", slot, product.getName(), product.getPrice(), product.getType());
+		}
 	}
 
 

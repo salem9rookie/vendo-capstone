@@ -20,7 +20,7 @@ public class VendLog {
 
 
      try {
-        FileWriter writer = new FileWriter("Log.txt");
+        FileWriter writer = new FileWriter("Log.txt", true);
         for (Transaction transaction : transactions) {
             String logLine = generateLogLine(transaction.getAction(), transaction.getAmountDeposited(), transaction.getNewBalance());
             writer.write(logLine + "\n");
