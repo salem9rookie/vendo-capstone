@@ -42,11 +42,6 @@ public class Product {
         return inventory;
     }
 
-    public void decreaseInventory() {
-       inventory--;
-    }
-
-
-
+    
 }
 
