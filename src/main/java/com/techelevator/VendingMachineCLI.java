@@ -2,11 +2,10 @@ package com.techelevator;
 
 import com.techelevator.view.Menu;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 
 public class VendingMachineCLI {
@@ -50,16 +49,30 @@ public class VendingMachineCLI {
 
 	//methods
 	public void run() {
-		while (true) {
-			System.out.println("Current Money Provided: $" + balance);
+		String filePath = "path/to/your/file.txt";
+		Scanner scanner = null;
+		try {
+			scanner = new Scanner(new File("ASCIIvendo.txt"));
+		} catch (FileNotFoundException e) {
+			System.err.println("File not found: " + filePath);
+			System.exit(1);
+		}
+		while (scanner.hasNextLine()) {
+			String line = scanner.nextLine();
+			System.out.println(line);
+		}
+		scanner.close();
+
+
+		while (true){
+
+			System.out.printf("Current Money Provided: $%.2f", balance);
 			String choice = (String) menu.getChoiceFromOptions(MAIN_MENU_OPTIONS);
 
 
 			if (choice.equals(MAIN_MENU_OPTION_DISPLAY_ITEMS)) {
-				// display vending machine items
 				displayItems();
 			} else if (choice.equals(MAIN_MENU_OPTION_PURCHASE)) {
-				// do purchase
 				displayPurchaseMenu();
 			} else if (choice.equals(MAIN_MENU_OPTION_EXIT)) {
 				System.out.println("Here is your change.");
@@ -71,16 +84,15 @@ public class VendingMachineCLI {
 	}
 
 	private void displayPurchaseMenu() {
-		System.out.println("Current Money Provided: $" + balance);
+		System.out.printf("Current Money Provided: $%.2f", balance);
 		String choice = (String) menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS);
 
 		switch (choice) {
 			case FEED_MONEY_OPTION:
-				//feed money --> Salem
 				displayFeedMenu();
 				break;
 			case SELECT_PRODUCT_OPTION:
-				//select product --> Jennifer
+				displayItems();
 				selectProduct();
 				break;
 			case FINISH_TRANSACTION_OPTION:
@@ -94,13 +106,13 @@ public class VendingMachineCLI {
 
 
 	private void displayItems() {
-		loadProducts("vendingmachine.csv"); //added by Salem
-		displayProducts(); //added by Salem
+		loadProducts("vendingmachine.csv");
+		displayProducts();
 	}
 
 
 	private void displayFeedMenu() {
-		System.out.println("Current Money Provided: $" + balance);
+		System.out.printf("Current Money Provided: $%.2f", balance);
 		String choice = (String) menu.getChoiceFromOptions(MONEY_FEED_OPTIONS);
 		switch (choice) {
 			case ADD_ONE_DOLLAR:
@@ -126,11 +138,9 @@ public class VendingMachineCLI {
 //
 //				break;
 			case FINISH_TRANSACTION_OPTION:
-				//change is returned
-				//machine balance reset to zero
-
 				System.out.println("Here is your change.");
 				giveChange(balance, 0.00);
+				balance = 0.0;
 				System.exit(-1);
 				break;
 
@@ -153,47 +163,26 @@ public class VendingMachineCLI {
 	// also possibly move to Transaction file? since its considered a Transaction?
 
 	public void selectProduct() { //select item from the menu, matching slot to ultimately purchase the item in question.
-		System.out.println("Hiiiiiii");
-		System.out.println("Please enter in product code: ");
-		String selectedProduct = menu.getInputFromUser().toUpperCase();
-//
-//		//check to see if it exists
-//		Product product = products.get(products.containsKey(selectedProduct));
-//		if (product == null) {
-//			System.out.println("Invalid product code. Please enter a valid product code (e.g., A1).");
-//		} else {
-//			// Product code is valid, proceed with the purchase logic
-//			System.out.println("You selected: " + product.getName());
-//			decreaseProductInventory(selectedProduct);
-
-
+        System.out.println("Please enter in product code: ");
+        String selectedProduct = menu.getInputFromUser().toUpperCase();
+        Product product = null;
+        for (Map.Entry<String, Product> entry : products.entrySet()) {
+            String slot = entry.getKey();
+            product = entry.getValue();
+        }
+        if (selectedProduct.equalsIgnoreCase(product.getSlot())) {
+            System.out.println("Hiiii! You found me!");
+			System.out.println(product.getName());
+        } else {
+            System.out.println("oops....");
+        }
+    }
 			//if selectedProduct doesn't match the productCode,
 			//System.out.println("Invalid entry.");
 			//else
 			//check if user balance is higher than the cost of the item.
 			//if so, then purchase item, decreasing inventory, updating user's balance. this should also trigger a logging sequence.
 			//it will also print something else like Glug Glug depending on the product's type.
-
-
-		}
-
-
-
-	public void decreaseProductInventory(String selectedProduct) {
-		for (Product product : products.values()) {
-			if (product.getSlot().toUpperCase().equals(selectedProduct)) {
-				System.out.println(selectedProduct);
-			} else {
-				System.out.println("Invalid entry.");
-			}
-			return;
-		}
-	}
-
-
-
-
-
 
 	public void loadProducts(String filename) {
 		try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
