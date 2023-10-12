@@ -29,6 +29,7 @@ public class VendingMachineCLI {
 
 	private Menu menu;
 	private double balance = 0.0;
+	private double amountDeposited;
 	private Map<String, Product> products = new LinkedHashMap<>();
 	private static VendingMachineCLI vendingMachineCLI; //new thing -> created and updated to static? may need to change
 
@@ -44,7 +45,6 @@ public class VendingMachineCLI {
 	public static void main(String[] args) {
 		Menu menu = new Menu(System.in, System.out);
 		VendingMachineCLI cli = new VendingMachineCLI(menu, vendingMachineCLI);
-
 		cli.run();
 	}
 
@@ -64,6 +64,7 @@ public class VendingMachineCLI {
 			} else if (choice.equals(MAIN_MENU_OPTION_EXIT)) {
 				System.out.println("Here is your change.");
 				giveChange(balance, 0.00);
+				VendLog.generateLogLine("GIVE CHANGE", balance, 0.00);
 				System.exit(-1);
 			}
 		}
@@ -85,6 +86,7 @@ public class VendingMachineCLI {
 			case FINISH_TRANSACTION_OPTION:
 				System.out.println("Here is your change.");
 				giveChange(balance, 0.00);
+				VendLog.generateLogLine("GIVE CHANGE", balance, 0.00);
 				System.exit(-1);
 
 		}
@@ -102,13 +104,19 @@ public class VendingMachineCLI {
 		String choice = (String) menu.getChoiceFromOptions(MONEY_FEED_OPTIONS);
 		switch (choice) {
 			case ADD_ONE_DOLLAR:
+				amountDeposited = 1.00;
 				balance++;
+				VendLog.generateLogLine("FEED MONEY", amountDeposited, balance );
 				break;
 			case ADD_FIVE_DOLLARS:
+				amountDeposited = 5.00;
 				balance += 5.00;
+				VendLog.generateLogLine("FEED MONEY", amountDeposited, balance );
 				break;
 			case ADD_TEN_DOLLARS:
+				amountDeposited = 10.00;
 				balance += 10.00;
+				VendLog.generateLogLine("FEED MONEY", amountDeposited, balance );
 				break;
 //			case ADD_OTHER_AMOUNT:
 //				//add other amount
@@ -137,32 +145,56 @@ public class VendingMachineCLI {
 		for (Map.Entry<String, Product> entry : products.entrySet()) {
 			String slot = entry.getKey();
 			Product product = entry.getValue();
-			System.out.printf("%s - %s ($%.2f) - %s\n", product.getSlot(), product.getName(), product.getPrice(), product.getType());
+			System.out.printf("%s - %s ($%.2f) - %s - %d\n", product.getSlot(), product.getName(), product.getPrice(), product.getType(), product.getInventory());
 		}
 	}
 
-	public void selectProduct() {
+	//-------- leave for Ahmad's optional office hours on 10-12
+	// also possibly move to Transaction file? since its considered a Transaction?
+
+	public void selectProduct() { //select item from the menu, matching slot to ultimately purchase the item in question.
+		System.out.println("Hiiiiiii");
 		System.out.println("Please enter in product code: ");
-		String selectedProduct = menu.getInputFromUser();
-		for (Product product : products.values()) {
-			if (selectedProduct.equals(product.getSlot().toUpperCase())) {
+		String selectedProduct = menu.getInputFromUser().toUpperCase();
+//
+//		//check to see if it exists
+//		Product product = products.get(products.containsKey(selectedProduct));
+//		if (product == null) {
+//			System.out.println("Invalid product code. Please enter a valid product code (e.g., A1).");
+//		} else {
+//			// Product code is valid, proceed with the purchase logic
+//			System.out.println("You selected: " + product.getName());
+//			decreaseProductInventory(selectedProduct);
 
-				System.out.println("WOW");
-			}else{
-				System.out.println("Invalid entry.");
-				//if selectedProduct doesn't match the productCode,
-				//System.out.println("Invalid entry.");
-				//else
-				//check if user balance is higher than the cost of the item.
-				//if so, then purchase item, decreasing inventory, updating user's balance. this should also trigger a logging sequence.
-				//it will also print something else like Glug Glug depending on the product's type.
 
-			}
+			//if selectedProduct doesn't match the productCode,
+			//System.out.println("Invalid entry.");
+			//else
+			//check if user balance is higher than the cost of the item.
+			//if so, then purchase item, decreasing inventory, updating user's balance. this should also trigger a logging sequence.
+			//it will also print something else like Glug Glug depending on the product's type.
 
 
 		}
 
+
+
+	public void decreaseProductInventory(String selectedProduct) {
+		for (Product product : products.values()) {
+			if (product.getSlot().toUpperCase().equals(selectedProduct)) {
+				System.out.println(selectedProduct);
+			} else {
+				System.out.println("Invalid entry.");
+			}
+			return;
+		}
 	}
+
+
+
+
+
+
 	public void loadProducts(String filename) {
 		try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
 			String line;
