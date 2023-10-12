@@ -6,6 +6,7 @@ import java.io.*;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.TreeMap;
 
 
 public class VendingMachineCLI {
@@ -29,7 +30,7 @@ public class VendingMachineCLI {
 	private Menu menu;
 	private double balance = 0.0;
 	private double amountDeposited;
-	private Map<String, Product> products = new LinkedHashMap<>();
+	private Map<String, Product> products = new TreeMap<>();
 	private static VendingMachineCLI vendingMachineCLI; //new thing -> created and updated to static? may need to change
 
 	//constructor
@@ -49,6 +50,7 @@ public class VendingMachineCLI {
 
 	//methods
 	public void run() {
+		loadProducts("vendingmachine.csv");
 		String filePath = "path/to/your/file.txt";
 		Scanner scanner = null;
 		try {
@@ -106,7 +108,7 @@ public class VendingMachineCLI {
 
 
 	private void displayItems() {
-		loadProducts("vendingmachine.csv");
+
 		displayProducts();
 	}
 
@@ -165,14 +167,24 @@ public class VendingMachineCLI {
 	public void selectProduct() { //select item from the menu, matching slot to ultimately purchase the item in question.
         System.out.println("Please enter in product code: ");
         String selectedProduct = menu.getInputFromUser().toUpperCase();
-        Product product = null;
-        for (Map.Entry<String, Product> entry : products.entrySet()) {
-            String slot = entry.getKey();
-            product = entry.getValue();
-        }
+        Product product = findProductBySlotNumber(selectedProduct);
+        if(product == null){
+			System.out.println("Product is null");
+			System.exit(-2);
+		}
         if (selectedProduct.equalsIgnoreCase(product.getSlot())) {
+			if(balance <= 0){
+				System.out.println("Please insert money to purchase product.");
+				return;
+			}
             System.out.println("Hiiii! You found me!");
 			System.out.println(product.getName());
+			if(balance > product.getPrice()){
+				balance -= product.getPrice();
+				//try catch block. if inventory is less than 0, update to SOLD OUT
+				product.setInventory(product.getInventory()-1);
+			}
+			VendLog.generateLogLine((product.getName()+ " "+product.getSlot()), product.getPrice(), balance);
         } else {
             System.out.println("oops....");
         }
@@ -222,6 +234,15 @@ public class VendingMachineCLI {
 		System.out.println(dimes+ " dime(s)");
 		System.out.println(nickels +" nickel(s)");
 		System.out.println(pennies + " penn(ies)");
+	}
+
+	private Product findProductBySlotNumber(String slot){
+		for (Map.Entry<String, Product> entry : products.entrySet()) {
+			if(entry.getValue().getSlot().equalsIgnoreCase(slot)){
+				return entry.getValue();
+			}
+
+		}return null;
 	}
 }
 
