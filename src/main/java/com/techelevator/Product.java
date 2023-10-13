@@ -6,11 +6,11 @@ import java.io.IOException;
 
 public class Product {
 
-    private String name;
-    private double price;
-    private String type;
+    private final String name;
+    private final double price;
+    private final String type;
     private int inventory;
-    private String slot;
+    private final String slot;
 
 
 
@@ -22,9 +22,7 @@ public class Product {
         this.inventory = 5;  // Start with an inventory of 5 for each product
     }
 
-    public String getSlot() {
-        return slot;
-    }
+    public String getSlot() { return slot; }
 
     public String getName() {
         return name;

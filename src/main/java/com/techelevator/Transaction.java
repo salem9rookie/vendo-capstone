@@ -2,9 +2,9 @@ package com.techelevator;
 
 public class Transaction {
 
-    private String action;
-    private double amountDeposited;
-    private double newBalance;
+    private final String action;
+    private final double amountDeposited;
+    private final double newBalance;
 
     public Transaction(String action, double amountDeposited, double newBalance) {
         this.action = action;
