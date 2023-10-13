@@ -27,17 +27,16 @@ public class VendingMachineCLI {
 	//	private static final String ADD_OTHER_AMOUNT = "Add Other Amount";
 	private static final String[] MONEY_FEED_OPTIONS = {ADD_ONE_DOLLAR, ADD_FIVE_DOLLARS, ADD_TEN_DOLLARS, FINISH_TRANSACTION_OPTION};
 
-	private Menu menu;
+	private final Menu menu;
 	private double balance = 0.0;
-	private double amountDeposited;
-	private Map<String, Product> products = new TreeMap<>();
+	private final Map<String, Product> products = new TreeMap<>();
 	private static VendingMachineCLI vendingMachineCLI; //new thing -> created and updated to static? may need to change
 
 	//constructor
 
 	public VendingMachineCLI(Menu menu, VendingMachineCLI vendingMachineCLI) {
 		this.menu = menu;
-		this.vendingMachineCLI = vendingMachineCLI;
+		VendingMachineCLI.vendingMachineCLI = vendingMachineCLI;
 	}
 
 	//main method
@@ -72,16 +71,19 @@ public class VendingMachineCLI {
 			String choice = (String) menu.getChoiceFromOptions(MAIN_MENU_OPTIONS);
 
 
-			if (choice.equals(MAIN_MENU_OPTION_DISPLAY_ITEMS)) {
-				displayItems();
-			} else if (choice.equals(MAIN_MENU_OPTION_PURCHASE)) {
-				displayPurchaseMenu();
-			} else if (choice.equals(MAIN_MENU_OPTION_EXIT)) {
-				System.out.println("Here is your change.");
-				giveChange(balance, 0.00);
-				VendLog.generateLogLine("GIVE CHANGE", balance, 0.00);
-				System.exit(-1);
-			}
+            switch (choice) {
+                case MAIN_MENU_OPTION_DISPLAY_ITEMS:
+                    displayItems();
+                    break;
+                case MAIN_MENU_OPTION_PURCHASE:
+                    displayPurchaseMenu();
+                    break;
+                case MAIN_MENU_OPTION_EXIT:
+                    System.out.println("Here is your change.");
+                    giveChange(balance, 0.00);
+                    VendLog.generateLogLine("GIVE CHANGE", balance, 0.00);
+                    System.exit(-1);
+            }
 		}
 	}
 
@@ -118,7 +120,7 @@ public class VendingMachineCLI {
 		String choice = (String) menu.getChoiceFromOptions(MONEY_FEED_OPTIONS);
 		switch (choice) {
 			case ADD_ONE_DOLLAR:
-				amountDeposited = 1.00;
+				double amountDeposited = 1.00;
 				balance++;
 				VendLog.generateLogLine("FEED MONEY", amountDeposited, balance );
 				break;
@@ -158,30 +160,57 @@ public class VendingMachineCLI {
 	// also possibly move to Transaction file? since its considered a Transaction?
 
 	public void selectProduct() { //select item from the menu, matching slot to ultimately purchase the item in question.
-        System.out.println("Please enter in product code: ");
-        String selectedProduct = menu.getInputFromUser().toUpperCase();
-        Product product = findProductBySlotNumber(selectedProduct);
-        if(product == null){
+		System.out.println("Please enter in product code: ");
+		String selectedProduct = menu.getInputFromUser().toUpperCase();
+		Product product = findProductBySlotNumber(selectedProduct);
+		if(product == null){
 			System.out.println("Product is null");
-			System.exit(-2);
+//        System.exit(-2);
+			return;
 		}
-        if (selectedProduct.equalsIgnoreCase(product.getSlot())) {
+		if (selectedProduct.equalsIgnoreCase(product.getSlot())) {
 			if(balance <= 0){
 				System.out.println("Please insert money to purchase product.");
 				return;
 			}
-            System.out.println("Hiiii! You found me!");
-			System.out.println(product.getName());
+
+			//System.out.println(product.getName());
 			if(balance > product.getPrice()){
-				balance -= product.getPrice();
+				if(product.getInventory()>0) {
+					balance -= product.getPrice();
+				}try {
+					if (product.getInventory() <= 0){
+						throw new RuntimeException("SOLD OUT. Choose another snack. Or try some pizza from Freddy's Fazbear's Pizzeria! Pizza so good, it's to DIE for!");
+					}
+				} catch (RuntimeException re) {
+					System.out.println(re.getMessage());
+					return;
+				}
 				//try catch block. if inventory is less than 0, update to SOLD OUT
 				product.setInventory(product.getInventory()-1);
+				switch (product.getType()) {
+					case "Chip":
+						System.out.println("Crunch, crunch Yum!");
+						break;
+					case "Drink":
+						System.out.println("Glug, glug Yum!");
+						break;
+					case "Candy":
+						System.out.println("Munch, munch Yum!");
+						break;
+					case "Gum":
+						System.out.println("Chew, chew Yum!");
+						break;
+					// Add more cases for other product types if needed
+					default:
+						System.out.println("Unknown product type");
+				}
 			}
 			VendLog.generateLogLine((product.getName()+ " "+product.getSlot()), product.getPrice(), balance);
-        } else {
-            System.out.println("oops....");
-        }
-    }
+		} else {
+			System.out.println("oops....");
+		}
+	}
 
 	public void loadProducts(String filename) {
 		try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
