@@ -81,7 +81,7 @@ public class JennifersCode {
                 break;
             case SELECT_PRODUCT_OPTION:
                 //select product --> Jennifer
-                selectProduct();
+//                selectProduct();
                 break;
             case FINISH_TRANSACTION_OPTION:
                 System.out.println("Here is your change.");
@@ -142,45 +142,45 @@ public class JennifersCode {
         }
     }
 
-    public void selectProduct() {
-        while (true) {
-            System.out.println("Current money provided: $" + balance);
-            System.out.println("(1) Feed Money");
-            System.out.println("(2) Select Your Product");
-            System.out.println("(3) End Transaction");
-            System.out.println("Choose option");
-            Scanner scanner = new Scanner(System.in);
-            String input = scanner.nextLine();
-            Product selectedItem = null;
-            if (input.equals("1")) {
-                System.out.println("Please enter a whole dollar amount");
-                double amount = scanner.nextDouble();
-                balance += amount;
-            } else if (input.equals("2")) {
-                System.out.println("Please enter the slot location of your desired product");
-                String slot = scanner.nextLine();
-                selectedItem = null;
-                for (Product product : products.values()) {
-                    if (product.getSlot().equals(slot)) {
-                        selectedItem = product;
-                        System.out.println(selectedItem);
-                        break;
-                    }
-                }
-                if (selectedItem == null) {
-                    System.out.println("Invalid slot location. Please, try again");
-                } else if (selectedItem.getInventory(selectedItem.decreaseInventory() - 1) == 0) {
-                    System.out.println("Item is SOLD OUT. Please, select another");
-                } else if (selectedItem.getPrice() > balance)
-                    System.out.println("Not enough money. Please, add more. Feed me, Seymour.");
-            } else {
-                balance -= selectedItem.getPrice();
-                selectedItem.getInventory(selectedItem.decreaseInventory() - 1);
-                System.out.println(selectedItem.getType() + "dispensed." + selectedItem.getMessage);
-                System.out.println("Balance remaining: $" + balance);
-            }
-        }
-    }
+//    public void selectProduct() {
+//        while (true) {
+//            System.out.println("Current money provided: $" + balance);
+//            System.out.println("(1) Feed Money");
+//            System.out.println("(2) Select Your Product");
+//            System.out.println("(3) End Transaction");
+//            System.out.println("Choose option");
+//            Scanner scanner = new Scanner(System.in);
+//            String input = scanner.nextLine();
+//            Product selectedItem = null;
+//            if (input.equals("1")) {
+//                System.out.println("Please enter a whole dollar amount");
+//                double amount = scanner.nextDouble();
+//                balance += amount;
+//            } else if (input.equals("2")) {
+//                System.out.println("Please enter the slot location of your desired product");
+//                String slot = scanner.nextLine();
+//                selectedItem = null;
+//                for (Product product : products.values()) {
+//                    if (product.getSlot().equals(slot)) {
+//                        selectedItem = product;
+//                        System.out.println(selectedItem);
+//                        break;
+//                    }
+//                }
+//                if (selectedItem == null) {
+//                    System.out.println("Invalid slot location. Please, try again");
+//                } else if (selectedItem.getInventory(selectedItem.decreaseInventory() - 1) == 0) {
+//                    System.out.println("Item is SOLD OUT. Please, select another");
+//                } else if (selectedItem.getPrice() > balance)
+//                    System.out.println("Not enough money. Please, add more. Feed me, Seymour.");
+//            } else {
+//                balance -= selectedItem.getPrice();
+//                selectedItem.getInventory(selectedItem.decreaseInventory() - 1);
+//                System.out.println(selectedItem.getType() + "dispensed." + selectedItem.getMessage);
+//                System.out.println("Balance remaining: $" + balance);
+//            }
+//        }
+//    }
     public void loadProducts(String filename) {
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
             String line;

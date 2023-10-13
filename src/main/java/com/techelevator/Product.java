@@ -42,6 +42,19 @@ public class Product {
         return inventory;
     }
 
-    
+    public void setInventory(int inventory) {
+        this.inventory = inventory;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "name='" + name + '\'' +
+                ", price=" + price +
+                ", type='" + type + '\'' +
+                ", inventory=" + inventory +
+                ", slot='" + slot + '\'' +
+                '}';
+    }
 }
 

@@ -23,4 +23,5 @@ public class Transaction {
     public double getNewBalance() {
         return newBalance;
     }
+
 }

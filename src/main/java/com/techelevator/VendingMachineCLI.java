@@ -132,13 +132,6 @@ public class VendingMachineCLI {
 				balance += 10.00;
 				VendLog.generateLogLine("FEED MONEY", amountDeposited, balance );
 				break;
-//			case ADD_OTHER_AMOUNT:
-//				//add other amount
-//				System.out.println("Please enter an amount in whole dollars: ");
-//				int moneyFed = Integer.parseInt((menu.getInputFromUser()));
-//				balance += moneyFed;
-//
-//				break;
 			case FINISH_TRANSACTION_OPTION:
 				System.out.println("Here is your change.");
 				giveChange(balance, 0.00);
@@ -189,12 +182,6 @@ public class VendingMachineCLI {
             System.out.println("oops....");
         }
     }
-			//if selectedProduct doesn't match the productCode,
-			//System.out.println("Invalid entry.");
-			//else
-			//check if user balance is higher than the cost of the item.
-			//if so, then purchase item, decreasing inventory, updating user's balance. this should also trigger a logging sequence.
-			//it will also print something else like Glug Glug depending on the product's type.
 
 	public void loadProducts(String filename) {
 		try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
