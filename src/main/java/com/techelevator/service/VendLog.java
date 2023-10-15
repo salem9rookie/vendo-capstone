@@ -4,10 +4,7 @@ import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-
 public class VendLog {
-
-    private static FileWriter writer;
 
     public static void generateLogLine(String action, double amountDeposited, double newBalance) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a");
@@ -19,7 +16,8 @@ public class VendLog {
         }
 
 
-    }}
+    }
+}
 
 
 

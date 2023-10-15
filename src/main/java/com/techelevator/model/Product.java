@@ -1,9 +1,5 @@
 package com.techelevator.model;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-
 public class Product {
 
     private final String name;
@@ -19,7 +15,7 @@ public class Product {
         this.name = name;
         this.price = price;
         this.type = type;
-        this.inventory = 5;  // Start with an inventory of 5 for each product
+        this.inventory = 5;
     }
 
     public String getSlot() { return slot; }

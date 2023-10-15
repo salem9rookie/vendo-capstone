@@ -45,13 +45,12 @@ public class VendingMachine implements Constants {
 
         }
     }
-    public void selectProduct() { //select item from the menu, matching slot to ultimately purchase the item in question.
+    public void selectProduct() {
         System.out.println("Please enter in product code: ");
         String selectedProduct = menu.getInputFromUser().toUpperCase();
         Product product = findProductBySlotNumber(selectedProduct);
         if(product == null){
             System.out.println("Product is null");
-//        System.exit(-2);
             return;
         }
         if (selectedProduct.equalsIgnoreCase(product.getSlot())) {
@@ -60,7 +59,6 @@ public class VendingMachine implements Constants {
                 return;
             }
 
-            //System.out.println(product.getName());
             if(balance > product.getPrice()){
                 if(product.getInventory()>0) {
                     balance -= product.getPrice();
@@ -72,7 +70,7 @@ public class VendingMachine implements Constants {
                     System.out.println(re.getMessage());
                     return;
                 }
-                //try catch block. if inventory is less than 0, update to SOLD OUT
+
                 product.setInventory(product.getInventory()-1);
                 switch (product.getType()) {
                     case "Chip":

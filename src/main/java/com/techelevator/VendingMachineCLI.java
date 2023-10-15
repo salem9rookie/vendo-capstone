@@ -30,6 +30,7 @@ public class VendingMachineCLI implements Constants {
     }
 
     //methods
+
     public void run() {
         vendingMachine.loadProducts("vendingmachine.csv");
         vendingMachine.displayBanner();
