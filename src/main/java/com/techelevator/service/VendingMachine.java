@@ -169,7 +169,7 @@ public class VendingMachine implements Constants {
 
         }
     }
-    private Product findProductBySlotNumber(String slot){
+    public Product findProductBySlotNumber(String slot){
         return products.get(slot);
     }
 

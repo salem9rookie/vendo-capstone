@@ -33,7 +33,7 @@ public class VendingMachineCLI implements Constants {
 
     public void run() {
         vendingMachine.loadProducts("vendingmachine.csv");
-        vendingMachine.displayBanner();
+        menu.displayBanner();
 
         while (true) {
 
@@ -49,7 +49,7 @@ public class VendingMachineCLI implements Constants {
                     break;
                 case MAIN_MENU_OPTION_EXIT:
                     System.out.println("Here is your change.");
-                    VendingMachine.giveChange(vendingMachine.getBalance(), 0.00);
+                    vendingMachine.giveChange(vendingMachine.getBalance(), 0.00);
                     VendLog.generateLogLine("GIVE CHANGE", vendingMachine.getBalance(), 0.00);
                     System.exit(-1);
             }
@@ -65,7 +65,4 @@ public class VendingMachineCLI implements Constants {
     }
 
 }
-
-
-
 

@@ -14,3 +14,4 @@ public interface Constants {
      String ADD_TEN_DOLLARS = "Add $10";
      String[] MONEY_FEED_OPTIONS = {ADD_ONE_DOLLAR, ADD_FIVE_DOLLARS, ADD_TEN_DOLLARS, FINISH_TRANSACTION_OPTION};
 }
+

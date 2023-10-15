@@ -1,8 +1,6 @@
 package com.techelevator.view;
 
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.Scanner;
 
 public class Menu {
@@ -33,7 +31,6 @@ public class Menu {
 				choice = options[selectedOption - 1];
 			}
 		} catch (NumberFormatException e) {
-			// eat the exception, an error message will be displayed below since choice will be null
 		}
 		if (choice == null) {
 			out.println(System.lineSeparator() + "*** " + userInput + " is not a valid option ***" + System.lineSeparator());
@@ -50,7 +47,23 @@ public class Menu {
 		out.print(System.lineSeparator() + "Please choose an option >>> ");
 		out.flush();
 	}
+	public void displayBanner(){
+		String filePath = "path/to/your/file.txt";
+		Scanner scanner = null;
+		try {
+			scanner = new Scanner(new File("ASCIIvendo.txt"));
+		} catch (FileNotFoundException e) {
+			System.err.println("File not found: " + filePath);
+			System.exit(1);
+		}
+		while (scanner.hasNextLine()) {
+			String line = scanner.nextLine();
+			System.out.println(line);
+		}
+		scanner.close();
+	}
 	public String getInputFromUser(){
 		return in.nextLine();
 	}
+
 }
