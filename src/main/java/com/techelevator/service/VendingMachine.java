@@ -54,7 +54,7 @@ public class VendingMachine implements Constants {
             return;
         }
         if (selectedProduct.equalsIgnoreCase(product.getSlot())) {
-            if(balance <= 0){
+            if(balance <= product.getPrice()){
                 System.out.println("Please insert money to purchase product.");
                 return;
             }
@@ -150,21 +150,7 @@ public class VendingMachine implements Constants {
         System.out.println(nickels +" nickel(s)");
         System.out.println(pennies + " penn(ies)");
     }
-    public void displayBanner(){
-        String filePath = "path/to/your/file.txt";
-        Scanner scanner = null;
-        try {
-            scanner = new Scanner(new File("ASCIIvendo.txt"));
-        } catch (FileNotFoundException e) {
-            System.err.println("File not found: " + filePath);
-            System.exit(1);
-        }
-        while (scanner.hasNextLine()) {
-            String line = scanner.nextLine();
-            System.out.println(line);
-        }
-        scanner.close();
-    }
+
     public void displayPurchaseMenu() {
         System.out.printf("Current Money Provided: $%.2f", balance);
         String choice = (String) menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS);
@@ -207,3 +193,4 @@ public class VendingMachine implements Constants {
         return products;
     }
 }
+
