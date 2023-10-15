@@ -1,4 +1,4 @@
-package com.techelevator;
+package com.techelevator.model;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
