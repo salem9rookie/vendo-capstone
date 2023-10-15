@@ -6,7 +6,6 @@ import com.techelevator.view.Menu;
 
 import java.io.*;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.TreeMap;
 
 public class VendingMachine implements Constants {
@@ -131,7 +130,7 @@ public class VendingMachine implements Constants {
         }
 
     }
-    public static void giveChange(double userBalance, double paidAmount){
+    public void giveChange(double userBalance, double paidAmount){
         double returnedBalance = userBalance - paidAmount;
         int quarters = (int) (returnedBalance / 0.25);
         returnedBalance -= quarters * 0.25;
@@ -150,7 +149,6 @@ public class VendingMachine implements Constants {
         System.out.println(nickels +" nickel(s)");
         System.out.println(pennies + " penn(ies)");
     }
-
     public void displayPurchaseMenu() {
         System.out.printf("Current Money Provided: $%.2f", balance);
         String choice = (String) menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS);
@@ -172,12 +170,7 @@ public class VendingMachine implements Constants {
         }
     }
     private Product findProductBySlotNumber(String slot){
-        for (Map.Entry<String, Product> entry : products.entrySet()) {
-            if(entry.getValue().getSlot().equalsIgnoreCase(slot)){
-                return entry.getValue();
-            }
-
-        }return null;
+        return products.get(slot);
     }
 
     //getters
