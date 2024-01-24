@@ -143,11 +143,8 @@ public class VendingMachine implements Constants {
 
         int pennies = (int) (returnedBalance / 0.01);
 
-        System.out.println("Your change is: ");
-        System.out.println(quarters+" quarter(s)");
-        System.out.println(dimes+ " dime(s)");
-        System.out.println(nickels +" nickel(s)");
-        System.out.println(pennies + " penn(ies)");
+        System.out.println("Your change is: \n"+quarters+" quarter(s)\n"+dimes+" dime(s)\n"+nickels+" nickel(s)\n"+pennies+" penn(ies)");
+
     }
     public void displayPurchaseMenu() {
         System.out.printf("Current Money Provided: $%.2f", balance);

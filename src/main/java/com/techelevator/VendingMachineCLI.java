@@ -42,10 +42,10 @@ public class VendingMachineCLI implements Constants {
 
             switch (choice) {
                 case MAIN_MENU_OPTION_DISPLAY_ITEMS:
-                    displayProducts();
+                    vendingMachine.displayProducts();
                     break;
                 case MAIN_MENU_OPTION_PURCHASE:
-                    displayPurchaseMenu();
+                    vendingMachine.displayPurchaseMenu();
                     break;
                 case MAIN_MENU_OPTION_EXIT:
                     System.out.println("Here is your change.");
@@ -56,13 +56,7 @@ public class VendingMachineCLI implements Constants {
         }
     }
 
-    private void displayPurchaseMenu() {
-        vendingMachine.displayPurchaseMenu();
-    }
 
-    public void displayProducts() {
-        vendingMachine.displayProducts();
-    }
 
 }
 
