@@ -1,0 +1,13 @@
+Next Steps:
+-Implement logger to catch exceptions in a format that doesn't display to end user.
+-Inside VendingMachine.java, simplify the select product method
+    ->Perhaps split some of the comparing methods into their own methods, utilizing a boolean
+    ->>might promote microservices just a bit better.
+-Do we need the newbalance part of the transaction?
+-There are still some smaller issues in giving change, mostly with larger amounts. can changing the variable types from
+    double to BigDecimal fix this?
+-There are plenty of options to create tests.
+-There are several methods that return void --
+    ->giveChange inside VendingMachine could instead return a String or a double or BigDecimal
+
+-double check the formatting of VendingMachine
